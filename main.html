@@ -36,6 +36,39 @@
 
 <script>
 //Your code goes here 
+	let items = document.querySelectorAll(".item");
+let container = document.querySelector(".items");
+let selected = null;
+let x, y;
+
+items.forEach(item => {
+    item.addEventListener("mousedown", function(e) {
+        selected = item;
+        x = e.clientX - item.offsetLeft;
+        y = e.clientY - item.offsetTop;
+        item.style.position = "absolute";
+        item.style.zIndex = 1000;
+    });
+});
+
+document.addEventListener("mousemove", function(e) {
+    if (selected) {
+        let rect = container.getBoundingClientRect();
+
+        let left = e.clientX - rect.left - x;
+        let top = e.clientY - rect.top - y;
+
+        left = Math.max(0, Math.min(left, rect.width - selected.offsetWidth));
+        top = Math.max(0, Math.min(top, rect.height - selected.offsetHeight));
+
+        selected.style.left = left + "px";
+        selected.style.top = top + "px";
+    }
+});
+
+document.addEventListener("mouseup", function() {
+    selected = null;
+})
 </script>
 
   </body>
